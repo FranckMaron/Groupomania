@@ -10,7 +10,7 @@ router.post("/login", authCtrl.signIn)
 //CRUD USER
 router.get("/", userCtrl.getAllUsers)
 router.get("/:id", userCtrl.getUser)
-router.put("/:id", userCtrl.updateUser)
+// router.put("/:id", userCtrl.updateUser) - Demander à mon mentor
 router.delete("/:id", userCtrl.deleteUser)
 
 
