@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 
 const userRoutes = require("./routes/user")
-const mesgRoutes = require("./routes/message")
+const messageRoutes = require("./routes/message")
 const commentRoutes = require("./routes/comment")
 
 app.use(express.urlencoded({ extended: true}))
@@ -19,7 +19,7 @@ app.use((req, res, next) => {
 
 //Routes
 app.use("/api/user", userRoutes )
-app.use("/api/message", mesgRoutes)
+app.use("/api/message", messageRoutes)
 app.use("api/comment", commentRoutes)
 
 module.exports = app;

@@ -17,9 +17,9 @@ exports.createComment = (req, res) => {
 }
 
 exports.getAllComments = (req, res) => {
-    db.Message.findAll()
-    .then((messages) => res.status(200).json({messages}))
-    .catch(error => res.status(400).json({error}))
+    // db.Message.findAll()
+    // .then((messages) => res.status(200).json({messages}))
+    // .catch(error => res.status(400).json({error}))
 }
 
 exports.getOneComment = (req, res) => {

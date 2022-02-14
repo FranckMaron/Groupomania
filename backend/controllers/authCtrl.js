@@ -2,17 +2,37 @@
 const db = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const passwordValidator = require("password-validator");
-
-// const schema = new passwordValidator();
-
-// schema.is().min(8).has().not().spaces();
 
 //Middleware
+
+//Fonction signUp
 exports.signUp = (req, res) => {
+
+  //Vérification des champs
+  if (req.body.email == null || req.body.pseudo == null || req.body.password == null) {
+    res.status(400).json({error: "Champs manquant(s) !"})
+  }
+
+  //Validation des champs par Regex
+  const emailRegex = /^[a-zA-Z0-9.]{4,}@[a-zA-Z0-9-]{3,}\.[a-zA-Z0-9-]{2,}$/
+  const passwordRegex = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{7,}$/
+  // const pseudoRegex = /^[a-zA-Z0-9]{3,}$/ --Demander conseil à mon mentor (fait crasher l'app)
+
+  if (!emailRegex.test(req.body.email)) {
+    res.status(400).json({error: "Format du mail non valide !"})
+  }
+
+  if (!passwordRegex.test(req.body.password)) {
+    res.status(400).json({error: "Le mot de passe doit contenir au minimum 7 caractères et contenir au moins un chiffre !"})    
+  }
+
+  // if (!pseudoRegex.test(req.body.pseudo)) {
+  //   res.status(400).json({error: "Le pseudo doit contenir au minmimum 3 caractères !"})
+  // }
+
   db.User.findOne({
-    attributes: ["email"],
-    where: { email: req.body.email },
+    attributes: ["email", "pseudo"],
+    where: { email: req.body.email, pseudo: req.body.pseudo}, //Demander pourquoi le pseudo n'est pas pris en compte
   })
     .then((user) => {
       if (!user) {
@@ -27,7 +47,7 @@ exports.signUp = (req, res) => {
           });
         });
       } else {
-        res.status(409).json({ message: "Utilisateurs déja existant !" });
+        res.status(409).json({ message: "Utilisateur déja existant !" });
       }
     })
     .catch((err) => {
@@ -37,6 +57,8 @@ exports.signUp = (req, res) => {
     });
 };
 
+
+//Fonction signIn
 exports.signIn = (req, res) => {
   db.User.findOne({
     where: { email: req.body.email },
@@ -61,3 +83,4 @@ exports.signIn = (req, res) => {
 })
 .catch((error) => res.status(500).json({ error }));
 }; 
+

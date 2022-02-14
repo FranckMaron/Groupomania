@@ -13,7 +13,7 @@ exports.createMessage = (req, res) => {
     })
     .then((message) => res.status(201).json({message}))
     .catch(error => res.status(400).json({error}))
-    console.log(db.Message.id);
+    console.log(db.Message._id);
 }
 
 exports.getAllMessages = (req, res) => {
