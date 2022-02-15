@@ -29,8 +29,11 @@ exports.createMessage = (req, res) => {
         })
           .then((message) => {
             if (message) {
-              res.status(201).json({ message: "Message posté : " + message });
-              console.log(message);
+              res
+                .status(201)
+                .json({
+                  message: "Message posté : " + message.dataValues.content,
+                });
             } else {
               res
                 .status(500)

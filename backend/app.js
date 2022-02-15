@@ -20,6 +20,6 @@ app.use((req, res, next) => {
 //Routes
 app.use("/api/user", userRoutes )
 app.use("/api/message", messageRoutes)
-app.use("api/comment", commentRoutes)
+app.use("/api/comment", commentRoutes)
 
 module.exports = app;
