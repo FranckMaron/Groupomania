@@ -48,8 +48,10 @@ exports.signUp = (req, res) => {
             pseudo: req.body.pseudo,
             email: req.body.email,
             password: hash,
-            picture:  "../images/profildefault.jpg",
-            isAdmin: false,
+            picture: req.body.picture
+              ? req.body.picture
+              : "../img/profildefault.webp",
+            isAdmin: 0,
           }).then((newUser) => {
             res.status(201).json({ userID: newUser.id });
           });
@@ -86,21 +88,18 @@ exports.signIn = (req, res) => {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
           res.status(200).json({
-            
-            token: jwt.sign({ //demander à mon mentor comment le stocker dans les cookies
+            userId: user.id,
+            token: jwt.sign({
               userId: user.id,
-              role: user.isAdmin                  
+              isAdmin: user.isAdmin,        
           }, 
           "RANDOM_TOKEN_SECRET", {
               expiresIn: "24h"
           }),
-          
           });
         })
 
-        .catch((error) => res.status(501).json({ error }));
+        .catch((error) => res.status(500).json({ error }));
     })
-    
     .catch((error) => res.status(500).json({ error }));
 };
-
