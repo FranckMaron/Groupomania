@@ -10,10 +10,7 @@ module.exports = {
       },
       email: {
         allowNull: false,
-        type: Sequelize.STRING,
-        validate: {
-          isEmail: true
-        }
+        type: Sequelize.STRING
       },
       pseudo: {
         allowNull: false,
@@ -21,10 +18,7 @@ module.exports = {
       },
       password: {
         allowNull: false,
-        type: Sequelize.STRING,
-        validate: {
-          len: [4, 60]
-        }
+        type: Sequelize.STRING
       },
       bio: {
         allowNull: true,
@@ -36,8 +30,7 @@ module.exports = {
       },
       isAdmin: {
         allowNull: false,
-        type: Sequelize.BOOLEAN,
-        defaultValue: 0
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

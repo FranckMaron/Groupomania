@@ -31,9 +31,11 @@ exports.signUp = (req, res) => {
     });
   }
 
-  // if (req.body.pseudo >= 15 || req.body.pseudo <= 3) {
-  //   return res.status(400).json({error: "Le pseudo doit contenir entre 3 et 15 caractères !"})
-  // } - Demander à mon mentor
+  if (req.body.pseudo.length >= 15 || req.body.pseudo.length <= 2) {
+    return res
+      .status(400)
+      .json({ error: "Le pseudo doit contenir entre 3 et 15 caractères !" });
+  }
 
   db.User.findOne({
     attributes: ["email", "pseudo"],
@@ -42,7 +44,7 @@ exports.signUp = (req, res) => {
     .then((user) => {
       if (!user) {
         bcrypt.hash(req.body.password, 10).then((hash) => {
-          const newUser = db.User.create({
+          db.User.create({
             pseudo: req.body.pseudo,
             email: req.body.email,
             password: hash,

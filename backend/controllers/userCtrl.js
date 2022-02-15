@@ -18,14 +18,20 @@ exports.getUser = (req, res) => {
     attributes: { exclude: ["password"] },
     where: { id: req.params.id },
   })
-    .then((user) => res.status(200).json({ user }))
+    .then((user) => {
+      if (user) {
+        res.status(200).json({user})
+      } else {
+        res.status(404).json({message: "Utilisateur introuvable"})
+      }
+    })
     .catch((error) => res.status(404).json({ error }));
 };
 
 // Modification d'un compte
 exports.updateUser = (req, res) => {
   db.User.findOne({
-    where: { id: req.params.id },
+    where: { id: req.params.id }
   })
     .then((user) => {
       if (user) {
