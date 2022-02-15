@@ -21,7 +21,7 @@ exports.createComment = (req, res) => {
           content: req.body.content,
           likes: 0,
           MessageId: message.id,
-          UserId: req.body.userId,
+          UserId: req.body.userId, //demander à mon mentor comment faire autrement
         })
           .then((comment) => {
             if (comment) {
@@ -42,7 +42,8 @@ exports.createComment = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(501).json({ err });
+      res.status(501).json({ err })
+      console.log(err);;
     });
 };
 
