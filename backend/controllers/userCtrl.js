@@ -33,12 +33,13 @@ exports.updateUser = (req, res) => {
   db.User.findOne({
     where: { id: req.params.id }
   })
+  
     .then((user) => {
       if (user) {
         user
           .update({
             bio: req.body.bio ? req.body.bio : user.bio,
-            picture: req.body.picture ? req.body.picture : user.picture,
+            picture:  (req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null )
           })
           .then(() =>
             res.status(201).json({ message: "profil mis à jour !" })

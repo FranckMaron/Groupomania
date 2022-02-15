@@ -1,6 +1,5 @@
 //Imports
 const db = require("../models");
-
 //Midellware
 
 //Création d'un commentaire
@@ -15,17 +14,14 @@ exports.createComment = (req, res) => {
       .json({ message: "Veuillez écrire au moins 3 caractères !" });
   }
 
-  db.Message.findOne({
-    where: { id: req.body.messageId },
-    
-  })
+  db.Message.findOne({where: { id: req.body.messageId } })
     .then((message) => {
       if (message) {
         db.Comment.create({
           content: req.body.content,
           likes: 0,
           MessageId: message.id,
-          UserId: req.decodedToken.userId
+          UserId: req.body.userId
         })
           .then((comment) => {
             if (comment) {
@@ -48,7 +44,7 @@ exports.createComment = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(500).json({ err });
+      res.status(501).json({ err });
     });
 };
 

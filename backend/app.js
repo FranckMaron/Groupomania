@@ -1,5 +1,6 @@
 //Imports
 const express = require('express');
+const path = require("path")
 const app = express();
 
 const userRoutes = require("./routes/user")
@@ -18,6 +19,7 @@ app.use((req, res, next) => {
   });
 
 //Routes
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use("/api/user", userRoutes )
 app.use("/api/message", messageRoutes)
 app.use("/api/comment", commentRoutes)

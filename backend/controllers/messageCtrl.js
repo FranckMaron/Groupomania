@@ -24,6 +24,7 @@ exports.createMessage = (req, res) => {
         db.Message.create({
           title: req.body.title,
           content: req.body.content,
+          attachment: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
           likes: 0,
           UserId: user.id,
         })
@@ -76,7 +77,7 @@ exports.getOneMessage = (req, res) => {
     });
 };
 
-//Supression d'un message
+//Modification d'un message
 exports.updateMessage = (req, res) => {
   db.Message.findOne({
     where: { id: req.params.id },
@@ -87,9 +88,7 @@ exports.updateMessage = (req, res) => {
           .update({
             title: req.body.title ? req.body.title : message.title,
             content: req.body.content ? req.body.content : message.content,
-            attachment: req.body.attachment
-              ? req.body.attachment
-              : message.attachment,
+            attachment: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
           })
           .then(() => {
             res.status(201).json({ message: "Message mis à jour !" });
@@ -105,7 +104,7 @@ exports.updateMessage = (req, res) => {
       res.status(500).json({ err });
     });
 };
-
+//supression d'un message
 exports.deleteMessage = (req, res) => {
   db.Message.destroy({
     where: { id: req.params.id },
