@@ -3,7 +3,6 @@ const db = require("../models");
 const jwt = require("jsonwebtoken");
 
 //Midlleware
-
 //Récuperations de tout les comptes
 exports.getAllUsers = (req, res) => {
   db.User.findAll({

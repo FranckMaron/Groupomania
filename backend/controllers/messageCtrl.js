@@ -1,9 +1,7 @@
 //Imports
 const db = require("../models");
-const jwt = require("jsonwebtoken");
 
 //Midellware
-
 //Création d'un message
 exports.createMessage = (req, res) => {
   if (req.body.title == null || req.body.content == null) {

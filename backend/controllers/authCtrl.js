@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 //Middleware
-
 //Fonction signUp
 exports.signUp = (req, res) => {
   //Vérification des champs

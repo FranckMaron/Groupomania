@@ -54,7 +54,7 @@ exports.createComment = (req, res) => {
     });
 };
 
-//Récu^pérations de tout les commentaires
+//Récupérations de tout les commentaires
 exports.getAllComments = (req, res) => {
   db.Comment.findAll()
     .then((comments) => res.status(200).json({ comments }))
