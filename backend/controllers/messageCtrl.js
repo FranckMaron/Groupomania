@@ -1,5 +1,6 @@
 //Imports
 const db = require("../models");
+const fs = require("fs");
 
 //Midellware
 //Création d'un message
@@ -49,6 +50,7 @@ exports.createMessage = (req, res) => {
     })
     .catch((err) => {
       res.status(404).json({ err });
+      console.log(err);
     });
 };
 
@@ -109,14 +111,29 @@ exports.updateMessage = (req, res) => {
 };
 //supression d'un message
 exports.deleteMessage = (req, res) => {
-  db.Message.destroy({
+  db.Message.findOne({
     where: { id: req.params.id },
   })
-    .then(() => {
-      res.status(200).json({ message: "Message supprimé !" });
+    .then((message) => {
+      if (message.attachment != null) {
+        const filename = message.attachment.split("/images/")[1];
+        fs.unlink(`images/${filename}`, () => {});
+      } else {
+        message
+          .destroy({
+            where: { id: req.params.id },
+          })
+          .then(() => {
+            res.status(200).json({ message: "Message supprimé !" });
+          })
+          .catch((err) => {
+            res.status(400).json({ err });
+          });
+      }
     })
 
     .catch((err) => {
       res.status(500).json({ err });
+      console.log(err);
     });
 };

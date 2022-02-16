@@ -49,7 +49,7 @@ exports.signUp = (req, res) => {
             password: hash,
             picture: req.body.picture
               ? req.body.picture
-              : "../img/profildefault.webp",
+              : "../img/profildefault.jpg",
             isAdmin: 0,
           }).then((newUser) => {
             res.status(201).json({ userID: newUser.id });
