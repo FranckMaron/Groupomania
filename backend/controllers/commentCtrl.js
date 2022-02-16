@@ -1,9 +1,16 @@
 //Imports
 const db = require("../models");
-//Midellware
+const jwt = require("jsonwebtoken");
 
+//Midellware
 //Création d'un commentaire
 exports.createComment = (req, res) => {
+  //On récupère l'userId de la personne connecté
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+  const userId = decodedToken.userId;
+  console.log(userId);
+
   if (req.body.content == null) {
     res.status(400).json({ message: "Veuillez écrire un message!" });
   }
@@ -21,7 +28,7 @@ exports.createComment = (req, res) => {
           content: req.body.content,
           likes: 0,
           MessageId: message.id,
-          UserId: req.body.userId, //demander à mon mentor comment faire autrement
+          UserId: userId, //demander à mon mentor comment faire autrement
         })
           .then((comment) => {
             if (comment) {
@@ -42,8 +49,8 @@ exports.createComment = (req, res) => {
       }
     })
     .catch((err) => {
-      res.status(501).json({ err })
-      console.log(err);;
+      res.status(501).json({ err });
+      console.log(err);
     });
 };
 

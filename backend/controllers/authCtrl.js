@@ -89,15 +89,18 @@ exports.signIn = (req, res) => {
           }
           res.status(200).json({
             userId: user.id,
-            token: jwt.sign({
-              userId: user.id,
-              isAdmin: user.isAdmin,        
-          }, 
-          "RANDOM_TOKEN_SECRET", {
-              expiresIn: "24h"
-          }),
-          })
-          console.log(user.id);;
+            token: jwt.sign(
+              {
+                userId: user.id,
+                isAdmin: user.isAdmin,
+              },
+              "RANDOM_TOKEN_SECRET",
+              {
+                expiresIn: "24h",
+              }
+            ),
+          });
+          console.log(user.id);
         })
 
         .catch((error) => res.status(500).json({ error }));

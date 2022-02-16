@@ -1,5 +1,6 @@
 //Imports
 const db = require("../models");
+const jwt = require("jsonwebtoken");
 
 //Midellware
 
@@ -24,17 +25,17 @@ exports.createMessage = (req, res) => {
         db.Message.create({
           title: req.body.title,
           content: req.body.content,
-          attachment: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
+          attachment: req.file
+            ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+            : null,
           likes: 0,
           UserId: user.id,
         })
           .then((message) => {
             if (message) {
-              res
-                .status(201)
-                .json({
-                  message: "Message posté : " + message.dataValues.content,
-                });
+              res.status(201).json({
+                message: "Message posté : " + message.dataValues.content,
+              });
             } else {
               res
                 .status(500)
@@ -88,7 +89,11 @@ exports.updateMessage = (req, res) => {
           .update({
             title: req.body.title ? req.body.title : message.title,
             content: req.body.content ? req.body.content : message.content,
-            attachment: req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null,
+            attachment: req.file
+              ? `${req.protocol}://${req.get("host")}/images/${
+                  req.file.filename
+                }`
+              : null,
           })
           .then(() => {
             res.status(201).json({ message: "Message mis à jour !" });
