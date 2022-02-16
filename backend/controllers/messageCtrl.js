@@ -16,7 +16,7 @@ exports.createMessage = (req, res) => {
   }
 
   db.User.findOne({
-    where: { id: req.body.userId },
+    where: { id: req.body.userId }, //comme ca ou en decodant le token?
   })
     .then((user) => {
       if (user) {
