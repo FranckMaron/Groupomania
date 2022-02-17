@@ -9,7 +9,8 @@ exports.signUp = (req, res) => {
   //Vérification des champs
   if (
     req.body.email == null ||
-    req.body.pseudo == null ||
+    req.body.prenom == null ||
+    req.body.nom == null ||
     req.body.password == null
   ) {
     res.status(400).json({ error: "Champs manquant(s) !" });
@@ -30,21 +31,22 @@ exports.signUp = (req, res) => {
     });
   }
 
-  if (req.body.pseudo.length >= 15 || req.body.pseudo.length <= 2) {
+  if (req.body.prenom.length >= 15 || req.body.prenom.length <= 2 || req.body.nom.length >= 15 || req.body.nom.length <= 2) {
     return res
       .status(400)
       .json({ error: "Le pseudo doit contenir entre 3 et 15 caractères !" });
   }
 
   db.User.findOne({
-    attributes: ["email", "pseudo"],
-    where: { email: req.body.email, pseudo: req.body.pseudo }, //Demander pourquoi le pseudo n'est pas pris en compte
+    attributes: ["email"],
+    where: { email: req.body.email},
   })
     .then((user) => {
       if (!user) {
         bcrypt.hash(req.body.password, 10).then((hash) => {
           db.User.create({
-            pseudo: req.body.pseudo,
+            prenom: req.body.prenom,
+            nom: req.body.nom,
             email: req.body.email,
             password: hash,
             picture: req.body.picture

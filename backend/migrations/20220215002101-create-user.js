@@ -12,7 +12,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      pseudo: {
+      prenom: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      nom: {
         allowNull: false,
         type: Sequelize.STRING,
       },
