@@ -1,12 +1,14 @@
 import React from 'react';
-import Connect from '../components/Connect';
+
 import Header from '../components/Header';
+import Profil from './Profil';
 
 const Home = () => {
     return (
         <div>
             <Header />
-            <Connect />
+            <Profil/>
+           
         </div>
     );
 };
