@@ -1,0 +1,13 @@
+.header {
+  border: 2px solid black;
+  display: flex;
+  justify-content: space-between;
+  color: red;
+  .me {
+    border: 2px solid green;
+    display: flex;
+    p {
+      padding: 10px;
+    }
+  }
+}

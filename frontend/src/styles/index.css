@@ -1,0 +1,22 @@
+.header {
+  border: 2px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: red;
+}
+
+.header .me {
+  border: 2px solid green;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.header .me p {
+  padding: 10px;
+}
+/*# sourceMappingURL=index.css.map */
