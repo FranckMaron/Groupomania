@@ -61,7 +61,7 @@ exports.updateUser = (req, res) => {
               ? `${req.protocol}://${req.get("host")}/images/${
                   req.file.filename
                 }`
-              : null,
+              : user.picture,
           })
           .then(() => res.status(201).json({ message: "profil mis à jour !" }))
           .catch((error) => res.status(500).json({ error }));

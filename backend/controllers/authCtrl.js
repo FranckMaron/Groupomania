@@ -13,19 +13,19 @@ exports.signUp = (req, res) => {
     req.body.nom == null ||
     req.body.password == null
   ) {
-    res.status(400).json({ error: "Champs manquant(s) !" });
+     res.status(400).json({ error: "Champs manquant(s) !" });
   }
 
   //Validation des champs par Regex
-  const emailRegex = /^[a-zA-Z0-9.]{4,}@[a-zA-Z0-9-]{3,}\.[a-zA-Z0-9-]{2,}$/;
+  const emailRegex = /^[a-zA-Z0-9.]{3,}@[a-zA-Z0-9-]{3,}\.[a-zA-Z0-9-]{2,}$/;
   const passwordRegex = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{7,25}$/;
 
   if (!emailRegex.test(req.body.email)) {
-    res.status(400).json({ error: "Format du mail non valide !" });
+    return res.status(400).json({ error: "Format du mail non valide !" });
   }
 
   if (!passwordRegex.test(req.body.password)) {
-    res.status(400).json({
+    return res.status(400).json({
       error:
         "Le mot de passe doit contenir entre 7 et 25 caractères, et contenir au moins un chiffre !",
     });
@@ -34,7 +34,7 @@ exports.signUp = (req, res) => {
   if (req.body.prenom.length >= 15 || req.body.prenom.length <= 2 || req.body.nom.length >= 15 || req.body.nom.length <= 2) {
     return res
       .status(400)
-      .json({ error: "Le pseudo doit contenir entre 3 et 15 caractères !" });
+      .json({ error: "Le nom et le prénom doivent contenir entre 3 et 15 caractères !" });
   }
 
   db.User.findOne({
@@ -58,7 +58,7 @@ exports.signUp = (req, res) => {
           });
         });
       } else {
-        res.status(409).json({ message: "Utilisateur déja existant !" });
+        res.status(409).json({ error: "Email déja existant !" });
       }
     })
     .catch((err) => {
@@ -80,7 +80,7 @@ exports.signIn = (req, res) => {
   })
     .then((user) => {
       if (!user) {
-        return res.status(401).json({ error: "Utilisateur non trouvé !" });
+        return res.status(401).json({ error: "Email non valide!" });
       }
       bcrypt
         .compare(req.body.password, user.password)

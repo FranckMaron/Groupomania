@@ -1,11 +1,18 @@
 //Imports
 const db = require("../models");
 const fs = require("fs");
+const jwt = require("jsonwebtoken");
 
 //Midellware
 //Création d'un message
 exports.createMessage = (req, res) => {
-  if (req.body.title == null || req.body.content == null) {
+  //On récupère l'userId de la personne connecté
+  const token = req.headers.authorization.split(" ")[1];
+  const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
+  const userId = decodedToken.userId;
+  console.log(userId);
+
+  if (req.body.content == null) {
     res.status(400).json({ message: "Champs manquant(s) !" });
   }
 
@@ -17,7 +24,7 @@ exports.createMessage = (req, res) => {
   }
 
   db.User.findOne({
-    where: { id: req.body.userId }, //comme ca ou en decodant le token?
+    where: { id: userId }, //comme ca ou en decodant le token?
   })
     .then((user) => {
       if (user) {
@@ -93,7 +100,7 @@ exports.updateMessage = (req, res) => {
               ? `${req.protocol}://${req.get("host")}/images/${
                   req.file.filename
                 }`
-              : null,
+              : message.attachment,
           })
           .then(() => {
             res.status(201).json({ message: "Message mis à jour !" });
@@ -115,21 +122,19 @@ exports.deleteMessage = (req, res) => {
     where: { id: req.params.id },
   })
     .then((message) => {
-      if (message.attachment != null) {
-        const filename = message.attachment.split("/images/")[1];
-        fs.unlink(`images/${filename}`, () => {});
-      } else {
-        message
-          .destroy({
-            where: { id: req.params.id },
-          })
-          .then(() => {
-            res.status(200).json({ message: "Message supprimé !" });
-          })
-          .catch((err) => {
-            res.status(400).json({ err });
-          });
-      }
+      const filename = message.attachment.split("/images/")[1];
+      fs.unlink(`images/${filename}`, () => {});
+
+      message
+        .destroy({
+          where: { id: req.params.id },
+        })
+        .then(() => {
+          res.status(200).json({ message: "Message supprimé !" });
+        })
+        .catch((err) => {
+          res.status(400).json({ err });
+        });
     })
 
     .catch((err) => {

@@ -1,14 +1,9 @@
 import React from 'react';
 
-import Header from '../components/Header';
-import Profil from './Profil';
-
 const Home = () => {
     return (
         <div>
-            <Header />
-            <Profil/>
-           
+            <h1>Hello depuis Home !</h1>           
         </div>
     );
 };

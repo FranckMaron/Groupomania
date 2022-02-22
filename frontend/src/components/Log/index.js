@@ -1,3 +1,4 @@
+//Imports
 import React, { useState } from "react";
 import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
@@ -6,6 +7,7 @@ const Log = (props) => {
   const [signUpModal, setSignUpModal] = useState(props.signup);
   const [signInModal, setSignInModal] = useState(props.signin);
 
+  //Définition du formulaire actif
   const handleModals = (e) => {
     if (e.target.id === "register") {
       setSignInModal(false);
