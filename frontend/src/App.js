@@ -1,15 +1,18 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
-import Profil from "./pages/Profil";
+import Fil from "./pages/Fil";
 import Error from "./pages/Error";
 
 const App = () => {
   return (
     <BrowserRouter>
+      <NavBar />
       <Routes>
-        <Route path="/home" element={<Home />}></Route>
-        <Route path="/" element={<Profil />}></Route>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/profil" element={<Home />}></Route>
+        <Route path="/fil" element={<Fil />}></Route>
         <Route path="*" element={<Error />}></Route>
       </Routes>
     </BrowserRouter>

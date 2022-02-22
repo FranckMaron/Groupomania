@@ -13,7 +13,7 @@ exports.signUp = (req, res) => {
     req.body.nom == null ||
     req.body.password == null
   ) {
-     res.status(400).json({ error: "Champs manquant(s) !" });
+    res.status(400).json({ error: "Champs manquant(s) !" });
   }
 
   //Validation des champs par Regex
@@ -31,15 +31,20 @@ exports.signUp = (req, res) => {
     });
   }
 
-  if (req.body.prenom.length >= 15 || req.body.prenom.length <= 2 || req.body.nom.length >= 15 || req.body.nom.length <= 2) {
-    return res
-      .status(400)
-      .json({ error: "Le nom et le prénom doivent contenir entre 3 et 15 caractères !" });
+  if (
+    req.body.prenom.length >= 15 ||
+    req.body.prenom.length <= 2 ||
+    req.body.nom.length >= 15 ||
+    req.body.nom.length <= 2
+  ) {
+    return res.status(400).json({
+      error: "Le nom et le prénom doivent contenir entre 3 et 15 caractères !",
+    });
   }
 
   db.User.findOne({
     attributes: ["email"],
-    where: { email: req.body.email},
+    where: { email: req.body.email },
   })
     .then((user) => {
       if (!user) {
@@ -88,18 +93,13 @@ exports.signIn = (req, res) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect !" });
           }
+          const token = jwt.sign(
+            { userId: user.id, isAdmin: user.isAdmin },
+            "RANDOM_TOKEN_SECRET"
+          );
           res.status(200).json({
             userId: user.id,
-            token: jwt.sign(
-              {
-                userId: user.id,
-                isAdmin: user.isAdmin,
-              },
-              "RANDOM_TOKEN_SECRET",
-              {
-                expiresIn: "24h",
-              }
-            ),
+            token: token,
           });
           console.log(user.id);
         })

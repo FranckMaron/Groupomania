@@ -2,10 +2,12 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import SignInForm from "./SignInForm";
 
 //Inscription
 const SignUpForm = () => {
   //Initialisations des variables
+  const [formSubmit, setFormSubmit] = useState(false);
   const [prenom, setPrenom] = useState("");
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
@@ -52,6 +54,9 @@ const SignUpForm = () => {
     })
       .then((result) => {
         console.log(result);
+        
+        //Confirmation de l'inscription en passant le state à true
+        setFormSubmit(true);
       })
       .catch((err) => {
         //Affichage des différentes erreurs
@@ -70,78 +75,91 @@ const SignUpForm = () => {
   };
   //Formulaire d'inscription
   return (
-    <form action="" onSubmit={handleRegister} id="sign-up-form">
-      <label htmlFor="prenom">Prénom</label>
-      <br />
-      <input
-        type="text"
-        name="prenom"
-        id="prenom"
-        required
-        onChange={(e) => setPrenom(e.target.value)}
-        value={prenom}
-      />
+    //On vérifie si l'utilisateur s'est incrist(e)
+    <>
+      {formSubmit ? (
+        <>
+          <SignInForm />
+          <span></span>
+          <h4 className="success">
+            Inscription réussie veuillez vous connecter !
+          </h4>
+        </>
+      ) : (
+        <form action="" onSubmit={handleRegister} id="sign-up-form">
+          <label htmlFor="prenom">Prénom</label>
+          <br />
+          <input
+            type="text"
+            name="prenom"
+            id="prenom"
+            required
+            onChange={(e) => setPrenom(e.target.value)}
+            value={prenom}
+          />
 
-      <div className="prenom error"></div>
-      <br />
-      <label htmlFor="nom">Nom</label>
-      <br />
-      <input
-        type="text"
-        name="nom"
-        id="nom"
-        required
-        onChange={(e) => setNom(e.target.value)}
-        value={nom}
-      />
+          <div className="prenom error"></div>
+          <br />
+          <label htmlFor="nom">Nom</label>
+          <br />
+          <input
+            type="text"
+            name="nom"
+            id="nom"
+            required
+            onChange={(e) => setNom(e.target.value)}
+            value={nom}
+          />
 
-      <div className="nom error"></div>
-      <br />
-      <label htmlFor="email">Email</label>
-      <br />
-      <input
-        type="email"
-        name="email"
-        id="email"
-        required
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
+          <div className="nom error"></div>
+          <br />
+          <label htmlFor="email">Email</label>
+          <br />
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+          />
 
-      <div className="email error"></div>
-      <br />
-      <label htmlFor="password">Mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        required
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
+          <div className="email error"></div>
+          <br />
+          <label htmlFor="password">Mot de passe</label>
+          <br />
+          <input
+            type="password"
+            name="password"
+            id="password"
+            required
+            onChange={(e) => setPassword(e.target.value)}
+            value={password}
+          />
 
-      <div className="password error"></div>
-      <br />
-      <label htmlFor="password-conf">Confirmer mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password-conf"
-        required
-        onChange={(e) => setControlPassword(e.target.value)}
-        value={controlPassword}
-      />
+          <div className="password error"></div>
+          <br />
+          <label htmlFor="password-conf">Confirmer mot de passe</label>
+          <br />
+          <input
+            type="password"
+            name="password"
+            id="password-conf"
+            required
+            onChange={(e) => setControlPassword(e.target.value)}
+            value={controlPassword}
+          />
 
-      <div className="password-confirm error"></div>
-      <br />
-      <input type="checkbox" id="terms" />
-      <label htmlFor="terms">J'accepte les conditions générales !</label>
-      <div className="terms error"></div>
-      <br />
-      <input type="submit" value="S'inscrire" />
-    </form>
+          <div className="password-confirm error"></div>
+          <br />
+          <input type="checkbox" id="terms" />
+          <label htmlFor="terms">J'accepte les conditions générales !</label>
+          <div className="terms error"></div>
+          <br />
+          <input type="submit" value="S'inscrire" />
+        </form>
+      )}
+    </>
   );
 };
 

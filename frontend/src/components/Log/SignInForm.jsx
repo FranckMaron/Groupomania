@@ -30,8 +30,8 @@ const SignInForm = () => {
       },
     })
       .then((res) => {
-        window.location.href = "/home"
-        console.log(res.data.token);
+        window.location.href = "/fil";
+        localStorage.setItem("token", JSON.stringify(res.data.token));
       })
       //Gestion des erreurs
       .catch((err) => {
