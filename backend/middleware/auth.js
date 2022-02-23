@@ -18,4 +18,5 @@ module.exports = (req, res, next) => {
     res.status(401).json({ error: "Requete non authentifiée" });
     console.log(error);
   }
+  
 };

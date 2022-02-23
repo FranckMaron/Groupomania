@@ -1,7 +1,7 @@
 //Imports
 const db = require("../models");
 const jwt = require("jsonwebtoken");
-const fs =require("fs")
+const fs = require("fs");
 
 //Midlleware
 //Récuperations de tout les comptes
@@ -78,17 +78,19 @@ exports.deleteUser = (req, res) => {
     where: { id: req.params.id },
   })
     .then((user) => {
-      const filename = user.picture.split("/images/")[1]
+      const filename = user.picture.split("/images/")[1];
       fs.unlink(`images/${filename}`, () => {
-        user.destroy({
-          where: {id: req.params.id}
-        })
-        .then(() => {
-          res.status(200).json({message: "Utilisateur supprimé !"})
-        }).catch((err) => {
-          res.status(400).json({err})
-        });
-      })
+        user
+          .destroy({
+            where: { id: req.params.id },
+          })
+          .then(() => {
+            res.status(200).json({ message: "Utilisateur supprimé !" });
+          })
+          .catch((err) => {
+            res.status(400).json({ err });
+          });
+      });
     })
 
     .catch((err) => {

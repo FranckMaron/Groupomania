@@ -79,7 +79,7 @@ const SignUpForm = () => {
     <>
       {formSubmit ? (
         <>
-          <SignInForm />
+          <SignInForm  />
           <span></span>
           <h4 className="success">
             Inscription réussie veuillez vous connecter !

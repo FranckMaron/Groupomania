@@ -31,8 +31,11 @@ const SignInForm = () => {
     })
       .then((res) => {
         window.location.href = "/fil";
-        localStorage.setItem("token", JSON.stringify(res.data.token));
-      })
+        localStorage.setItem("token", res.data.token)
+        localStorage.setItem("userId", res.data.userId)
+        console.log(res.data.userId)
+        console.log(res);
+        })
       //Gestion des erreurs
       .catch((err) => {
         console.log(err.response);

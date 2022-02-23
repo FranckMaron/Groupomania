@@ -3,10 +3,9 @@ import React from "react";
 
 //Deconnexion
 const Logout = () => {
-  const logout = (e) => {
+  const logout = () => {
     localStorage.removeItem("token");
     window.location.href = "/";
-    console.log(localStorage.getItem("token"));
   };
 
   return (

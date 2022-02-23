@@ -1,0 +1,137 @@
+//Imports
+import axios from "axios";
+import React from "react";
+import { useState, useEffect } from "react";
+import { dateParser } from "./Utils";
+const token = localStorage.getItem("token");
+
+//Modification du profil
+const UpdateProfil = () => {
+  //Déclarations des variables néscessaires
+  const [user, setUser] = useState([]);
+  const [bio, setBio] = useState("");
+  const [updateForm, setUpdateForm] = useState(false);
+  const userId = localStorage.getItem("userId");
+  const [file, setFile] = useState();
+
+  //Mise à jour de la bio
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_API_URL}api/user/${userId}`,
+      data: {
+        bio,
+      },
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        setBio(bio);
+        setUpdateForm(false);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
+  //Mise à jour de l'image
+  const handlePicture = async (e) => {
+    e.preventDefault();
+    await axios({
+      method: "PUT",
+      url: `${process.env.REACT_APP_API_URL}api/user/${userId}`,
+      data: {
+        file,
+      },
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        setFile(file.name);
+        user.picture = file.name;
+        console.log(user.picture);
+        console.log(file);
+        console.log(file.name);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
+  //Récupération de l'utilisateur
+  const getUser = async () => {
+    const userId = localStorage.getItem("userId");
+    await axios
+      .get(`${process.env.REACT_APP_API_URL}api/user/${userId}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+
+      .then((res) => {
+        setUser(res.data.user);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  return (
+    <div className="profil-container">
+      <h1>
+        {user.prenom} {user.nom}
+      </h1>
+      <div className="update-container">
+        <div className="left-part">
+          <h3>Photo de profil</h3>
+          <img src={user.picture} alt={"Photo de " + user.prenom} />
+          <form action="" onSubmit={handlePicture} className="upload-pic">
+            <label htmlFor="file">Changer d'image</label>
+            <input
+              type="file"
+              id="file"
+              name="file"
+              accept=".jpg, .jpeg, .png"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <br />
+            <input type="submit" value="Envoyer" />
+          </form>
+        </div>
+        <div className="right-part">
+          <div className="bio-update">
+            <h3>Bio</h3>
+            {updateForm === false && (
+              <>
+                <p onClick={() => setUpdateForm(!updateForm)}>{user.bio}</p>
+                <button onClick={() => setUpdateForm(!updateForm)}>
+                  Modifier bio
+                </button>
+              </>
+            )}
+            {updateForm && (
+              <>
+                <textarea
+                  type="text"
+                  defaultValue={user.bio}
+                  onChange={(e) => setBio(e.target.value)}
+                ></textarea>
+                <button onClick={handleUpdate}>Valider modification(s)</button>
+              </>
+            )}
+          </div>
+          <h4>Membre depuis le : {dateParser(user.createdAt)}</h4>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default UpdateProfil;

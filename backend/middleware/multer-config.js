@@ -11,7 +11,7 @@ const MIME_TYPES = {
 //Enregistrement du fichier
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "images");
+    callback(null, "../frontend/public/images");
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(" ").join("_").split(".").join("");
