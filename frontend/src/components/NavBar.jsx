@@ -23,7 +23,7 @@ const NavBar = () => {
         setUser(res.data.user);
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err);
       });
   };
 

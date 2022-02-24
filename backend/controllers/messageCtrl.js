@@ -40,7 +40,7 @@ exports.createMessage = (req, res) => {
           .then((message) => {
             if (message) {
               res.status(201).json({
-                message: "Message posté : " + message.dataValues.content,
+                message,
               });
             } else {
               res
@@ -122,9 +122,6 @@ exports.deleteMessage = (req, res) => {
     where: { id: req.params.id },
   })
     .then((message) => {
-      const filename = message.attachment.split("/images/")[1];
-      fs.unlink(`images/${filename}`, () => {});
-
       message
         .destroy({
           where: { id: req.params.id },
@@ -138,7 +135,7 @@ exports.deleteMessage = (req, res) => {
     })
 
     .catch((err) => {
-      res.status(500).json({ err });
+      res.status(500).json({ err: err });
       console.log(err);
     });
 };

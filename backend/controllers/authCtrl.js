@@ -99,6 +99,10 @@ exports.signIn = (req, res) => {
           res.status(200).json({
             userId: user.id,
             token: token,
+            admin : user.isAdmin,
+            picture: user.picture,
+            bio: user.bio,
+            createdAt: user.createdAt            
           });
           console.log(user.id);
         })

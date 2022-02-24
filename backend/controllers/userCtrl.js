@@ -65,7 +65,7 @@ exports.updateUser = (req, res) => {
           })
           .then(() => {
             res.status(201).json({ message: "profil mis à jour !" });
-            console.log(req.file);
+            console.log(res);
           })
 
           .catch((error) => res.status(500).json({ error }));
@@ -90,6 +90,7 @@ exports.deleteUser = (req, res) => {
           })
           .then(() => {
             res.status(200).json({ message: "Utilisateur supprimé !" });
+            
           })
           .catch((err) => {
             res.status(400).json({ err });

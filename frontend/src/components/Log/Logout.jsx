@@ -5,7 +5,7 @@ import React from "react";
 const Logout = () => {
   const logout = () => {
     localStorage.clear();
-    window.location.href = "/profil";
+    window.location.href = "/";
   };
 
   return (

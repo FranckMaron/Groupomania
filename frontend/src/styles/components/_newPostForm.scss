@@ -102,7 +102,9 @@
             font-size: 1.1rem;
           }
           img {
-            width: 100%;
+            width: 90%;
+            height: 300px;
+            object-fit: contain;
             border-radius: 6px;
             margin-top: 12px;
           }

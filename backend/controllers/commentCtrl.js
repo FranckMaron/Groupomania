@@ -9,17 +9,16 @@ exports.createComment = (req, res) => {
   const token = req.headers.authorization.split(" ")[1];
   const decodedToken = jwt.verify(token, "RANDOM_TOKEN_SECRET");
   const userId = decodedToken.userId;
-  console.log(userId);
 
-  if (req.body.content == null) {
-    res.status(400).json({ message: "Veuillez écrire un message!" });
+  if (req.body.content === null) {
+    return res.status(402).json({ message: "Veuillez écrire un message!" });
   }
 
   if (req.body.content <= 2) {
-    res
-      .status(400)
-      .json({ message: "Veuillez écrire au moins 3 caractères !" });
+    return res.status(401).json({ message: "Veuillez écrire au moins 3 caractères !" });
+      
   }
+
 
   db.Message.findOne({ where: { id: req.body.messageId } })
     .then((message) => {
@@ -33,16 +32,16 @@ exports.createComment = (req, res) => {
           .then((comment) => {
             if (comment) {
               res.status(201).json({
-                message: "Commentaire posté : " + comment.dataValues.content,
+                comment
               });
             } else {
               res
-                .status(500)
+                .status(512)
                 .json({ error: "Impossible de poster le commentraire !" });
             }
           })
           .catch((err) => {
-            res.status(500).json({ err });
+            res.status(500).json({err: "test"});
           });
       } else {
         res.status(404).json({ message: "Message introuvable !" });
@@ -109,6 +108,6 @@ exports.deleteComment = (req, res) => {
       res.status(200).json({ message: "Commentaire supprimé !" });
     })
     .catch((err) => {
-      res.status(500).json({ err });
+      res.status(505).json({ err });
     });
 };

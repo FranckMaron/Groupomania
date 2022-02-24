@@ -7,7 +7,7 @@ const token = localStorage.getItem("token");
 const Thread = () => {
   const [messages, setMessages] = useState();
   const [loadPost, setLoadPost] = useState(true);
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(2);
 
   const loadMore = () => {
     if (
@@ -32,7 +32,6 @@ const Thread = () => {
             setMessages(array);
             setLoadPost(false);
             setCount(count + 1);
-            console.log(res);
           }
           window.addEventListener("scroll", loadMore);
           return () => window.removeEventListener("scroll");
