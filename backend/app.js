@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 //Routes
-app.use("/images", express.static(path.join(__dirname, "../frontend/public/images")));
+app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/user", userRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/comment", commentRoutes);

@@ -4,8 +4,8 @@ import React from "react";
 //Deconnexion
 const Logout = () => {
   const logout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/";
+    localStorage.clear();
+    window.location.href = "/profil";
   };
 
   return (

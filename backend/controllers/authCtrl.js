@@ -3,6 +3,7 @@ const db = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+
 //Middleware
 //Fonction signUp
 exports.signUp = (req, res) => {
@@ -54,9 +55,7 @@ exports.signUp = (req, res) => {
             nom: req.body.nom,
             email: req.body.email,
             password: hash,
-            picture: req.body.picture
-              ? req.body.picture
-              : "..frontend/src/images/profildefault.jpg",
+            picture: `${req.protocol}://${req.get("host")}/images/profildefault.jpg`,
             isAdmin: 0,
           }).then((newUser) => {
             res.status(201).json({ userID: newUser.id });
@@ -85,7 +84,7 @@ exports.signIn = (req, res) => {
   })
     .then((user) => {
       if (!user) {
-        return res.status(401).json({ error: "Email non valide!" });
+        return res.status(401).json({ error: "Email inconnu !" });
       }
       bcrypt
         .compare(req.body.password, user.password)

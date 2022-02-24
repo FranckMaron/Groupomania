@@ -1,3 +1,4 @@
+//Imports
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
@@ -5,9 +6,11 @@ import { NavLink } from "react-router-dom";
 import Logout from "../components/Log/Logout";
 const token = localStorage.getItem("token");
 
+//Barre de navigation
 const NavBar = () => {
   const [user, setUser] = useState([]);
 
+  //Récupération de l'userId
   const getUser = async () => {
     const userId = localStorage.getItem("userId");
     await axios
@@ -32,11 +35,13 @@ const NavBar = () => {
     <nav>
       <div className="nav-container">
         <div className="logo">
-        <NavLink to="/fil">
-          <img
-            src="../images/icon-left-font-monochrome-black.svg"
-            alt="Logo groupomania"
-          />
+          <NavLink to="/">
+            <div className="logo">
+              <img
+                src="../images/icon-left-font-monochrome-black.svg"
+                alt="Logo groupomania"
+              />
+            </div>
           </NavLink>
         </div>
 

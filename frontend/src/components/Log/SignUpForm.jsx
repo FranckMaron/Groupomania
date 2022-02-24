@@ -34,7 +34,7 @@ const SignUpForm = () => {
     termsError.innerHTML = "";
     passwordConfError.innerHTML = "";
 
-    //Gestion des erreur du aux conditions générale non coché || au mot de passe différents
+    //Gestion des erreur du aux conditions générale non coché || aux mots de passe différents
     if (!terms.checked) {
       termsError.innerHTML = "Veuillez accepter les conditions générales !";
     }
@@ -53,8 +53,6 @@ const SignUpForm = () => {
       },
     })
       .then((result) => {
-        console.log(result);
-        
         //Confirmation de l'inscription en passant le state à true
         setFormSubmit(true);
       })
@@ -79,7 +77,7 @@ const SignUpForm = () => {
     <>
       {formSubmit ? (
         <>
-          <SignInForm  />
+          <SignInForm />
           <span></span>
           <h4 className="success">
             Inscription réussie veuillez vous connecter !
@@ -153,10 +151,12 @@ const SignUpForm = () => {
           <div className="password-confirm error"></div>
           <br />
           <input type="checkbox" id="terms" />
-          <label htmlFor="terms">J'accepte les conditions générales !</label>
+          <label htmlFor="terms">
+            J'accepte les <a href="/profil">conditions générales</a> !
+          </label>
           <div className="terms error"></div>
           <br />
-          <input type="submit" value="S'inscrire" />
+          <input type="submit" value="Valider inscription" />
         </form>
       )}
     </>

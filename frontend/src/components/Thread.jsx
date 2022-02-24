@@ -1,31 +1,59 @@
+//Imports
 import axios from "axios";
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Card from "./Post/Card";
 const token = localStorage.getItem("token");
 
 const Thread = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState();
+  const [loadPost, setLoadPost] = useState(true);
+  const [count, setCount] = useState(5);
 
-  const getMessages = async () => {
-    await axios
-      .get(`${process.env.REACT_APP_API_URL}api/message/all`, {
+  const loadMore = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >
+      document.scrollingElement.scrollHeight
+    ) {
+      setLoadPost(true);
+    }
+  };
+  useEffect(() => {
+    const getPost = async (num) => {
+      await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_API_URL}api/message/all`,
         headers: {
           Authorization: "Bearer " + token,
         },
       })
-      .then((res) => {
-        setMessages(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    getMessages();
-  }, []);
+        .then((res) => {
+          if (loadPost) {
+            const array = res.data.messages.slice(0, num);
+            setMessages(array);
+            setLoadPost(false);
+            setCount(count + 1);
+            console.log(res);
+          }
+          window.addEventListener("scroll", loadMore);
+          return () => window.removeEventListener("scroll");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getPost(count);
+  }, [count, loadPost]);
 
-  return <div></div>;
+  return (
+    <div className="thread-container">
+      <ul>
+        {messages &&
+          messages.map((message) => {
+            return <Card post={message} key={message.id} />;
+          })}
+      </ul>
+    </div>
+  );
 };
 
 export default Thread;

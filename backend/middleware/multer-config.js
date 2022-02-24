@@ -11,12 +11,11 @@ const MIME_TYPES = {
 //Enregistrement du fichier
 const storage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, "../frontend/public/images");
+    callback(null, "images");
   },
   filename: (req, file, callback) => {
     const name = file.originalname.split(" ").join("_").split(".").join("");
     const extension = MIME_TYPES[file.mimetype];
-    console.log(file.mimetype);
     callback(null, name + Date.now() + "." + extension);
   },
 });

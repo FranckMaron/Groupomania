@@ -63,7 +63,11 @@ exports.updateUser = (req, res) => {
                 }`
               : user.picture,
           })
-          .then(() => res.status(201).json({ message: "profil mis à jour !" }))
+          .then(() => {
+            res.status(201).json({ message: "profil mis à jour !" });
+            console.log(req.file);
+          })
+
           .catch((error) => res.status(500).json({ error }));
       } else {
         res.status(404).json({ message: "Utilisateur non trouvé !" });

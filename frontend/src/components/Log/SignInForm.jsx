@@ -12,6 +12,7 @@ const SignInForm = () => {
   //Envoi du formulaire
   const handleLogin = (e) => {
     e.preventDefault();
+
     //Récupération des élements dans le DOM
     const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
@@ -29,13 +30,12 @@ const SignInForm = () => {
         password,
       },
     })
+    //Stockage du token et de l'userId puis renvoi vers l'acceuil du site
       .then((res) => {
-        window.location.href = "/fil";
-        localStorage.setItem("token", res.data.token)
-        localStorage.setItem("userId", res.data.userId)
-        console.log(res.data.userId)
-        console.log(res);
-        })
+        window.location = "/";
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("userId", res.data.userId);
+      })
       //Gestion des erreurs
       .catch((err) => {
         console.log(err.response);
@@ -44,7 +44,7 @@ const SignInForm = () => {
         } else if (err.response.data.error.includes("Mot de passe")) {
           passwordError.innerHTML = err.response.data.error;
         } else {
-          console.log(err);
+          console.log(err.response);
         }
       });
   };

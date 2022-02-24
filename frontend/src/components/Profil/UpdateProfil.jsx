@@ -2,7 +2,9 @@
 import axios from "axios";
 import React from "react";
 import { useState, useEffect } from "react";
-import { dateParser } from "./Utils";
+import { dateParser } from "../Utils";
+import UploadImg from "./UploadImg";
+import LeftNav from "../LeftNav"
 const token = localStorage.getItem("token");
 
 //Modification du profil
@@ -12,11 +14,9 @@ const UpdateProfil = () => {
   const [bio, setBio] = useState("");
   const [updateForm, setUpdateForm] = useState(false);
   const userId = localStorage.getItem("userId");
-  const [file, setFile] = useState();
 
   //Mise à jour de la bio
   const handleUpdate = async (e) => {
-    e.preventDefault();
     await axios({
       method: "PUT",
       url: `${process.env.REACT_APP_API_URL}api/user/${userId}`,
@@ -28,33 +28,10 @@ const UpdateProfil = () => {
       },
     })
       .then((res) => {
-        setBio(bio);
         setUpdateForm(false);
-      })
-      .catch((err) => {
-        console.log(err.response);
-      });
-  };
-
-  //Mise à jour de l'image
-  const handlePicture = async (e) => {
-    e.preventDefault();
-    await axios({
-      method: "PUT",
-      url: `${process.env.REACT_APP_API_URL}api/user/${userId}`,
-      data: {
-        file,
-      },
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        setFile(file.name);
-        user.picture = file.name;
-        console.log(user.picture);
-        console.log(file);
-        console.log(file.name);
+        setBio(bio);
+        window.location.reload(); //ca marcher sans avant
+        console.log(bio);
       })
       .catch((err) => {
         console.log(err.response);
@@ -83,8 +60,30 @@ const UpdateProfil = () => {
     getUser();
   }, []);
 
+  //Suppression du compte
+  const handleDeleteUser = () => {
+    const userId = localStorage.getItem("userId");
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}api/user/${userId}`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      })
+
+      .then((res) => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
+        window.location = "/";
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
+  };
+
   return (
     <div className="profil-container">
+    <LeftNav/>
       <h1>
         {user.prenom} {user.nom}
       </h1>
@@ -92,18 +91,7 @@ const UpdateProfil = () => {
         <div className="left-part">
           <h3>Photo de profil</h3>
           <img src={user.picture} alt={"Photo de " + user.prenom} />
-          <form action="" onSubmit={handlePicture} className="upload-pic">
-            <label htmlFor="file">Changer d'image</label>
-            <input
-              type="file"
-              id="file"
-              name="file"
-              accept=".jpg, .jpeg, .png"
-              onChange={(e) => setFile(e.target.files[0])}
-            />
-            <br />
-            <input type="submit" value="Envoyer" />
-          </form>
+          <UploadImg />
         </div>
         <div className="right-part">
           <div className="bio-update">
@@ -120,6 +108,8 @@ const UpdateProfil = () => {
               <>
                 <textarea
                   type="text"
+                  id="bio"
+                  name="bio"
                   defaultValue={user.bio}
                   onChange={(e) => setBio(e.target.value)}
                 ></textarea>
@@ -128,6 +118,7 @@ const UpdateProfil = () => {
             )}
           </div>
           <h4>Membre depuis le : {dateParser(user.createdAt)}</h4>
+          <button onClick={handleDeleteUser}> Supprimer le compte</button>
         </div>
       </div>
     </div>

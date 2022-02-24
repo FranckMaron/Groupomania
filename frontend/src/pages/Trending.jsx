@@ -1,6 +1,7 @@
 import React from "react";
 import Log from "../components/Log";
-import Thread from "../components/Thread";
+
+
 const token = localStorage.getItem("token");
 
 const Fil = () => {
@@ -8,7 +9,8 @@ const Fil = () => {
     <div className="home">
       {token ? (
         <div className="main">
-            <Thread/>
+    
+          
         </div>
       ) : (
         <div className="log-container">
