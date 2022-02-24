@@ -40,7 +40,7 @@ const EditDeleteComment = ({ comment }) => {
       }
     };
     checkAuthor();
-  }, [comment.id]);
+  }, [comment.UserId]);
 
   const handleDelete = () => {
     axios({

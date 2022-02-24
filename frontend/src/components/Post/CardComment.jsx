@@ -90,8 +90,6 @@ const CardComment = ({ post, users }) => {
                     <EditDeleteComment
                       comment={comment}
                       post={post}
-                      getcomments={getComments}
-                      
                       key={Math.random()}
                     ></EditDeleteComment>
                   </div>
