@@ -55,7 +55,7 @@ exports.signUp = (req, res) => {
             nom: req.body.nom,
             email: req.body.email,
             password: hash,
-            picture: `${req.protocol}://${req.get("host")}/images/profildefault.jpg`,
+            picture: "../../../images/profildefault.jpg",
             isAdmin: 0,
           }).then((newUser) => {
             res.status(201).json({ userID: newUser.id });

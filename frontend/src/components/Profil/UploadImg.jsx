@@ -6,9 +6,25 @@ const userId = localStorage.getItem("userId");
 
 const UploadImg = ({ user }) => {
   const [file, setFile] = useState("");
+  let formData = new FormData()
+  formData.append("file", file)
+
   const handlePicture = async (e) => {
     e.preventDefault();
-    
+    axios({
+      method: "put",
+      url:`${process.env.REACT_APP_API_URL}api/user/${userId}`,
+      headers: {
+        Authorization: "Bearer "  + token,
+      },
+      data: formData
+
+    }).then((result) => {
+      setFile(file)
+      window.location.reload()
+    }).catch((err) => {
+      console.log(err)
+    });
   };
 
   return (

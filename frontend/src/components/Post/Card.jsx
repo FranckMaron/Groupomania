@@ -17,7 +17,8 @@ const Card = ({ post }) => {
   const [content, setContent] = useState(null);
   const [showComment, setShowComment] = useState(false);
 
-  const updateItems = async () => {
+  const updatePost = async () => {
+      console.log(post);
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}api/message/${post.id}`,
@@ -100,7 +101,7 @@ const Card = ({ post }) => {
                 onChange={(e) => setContent(e.target.value)}
               ></textarea>
               <div className="button-container">
-                <button className="btn" onClick={updateItems}>
+                <button className="btn" onClick={updatePost}>
                   Valider modifications
                 </button>
               </div>
@@ -110,7 +111,7 @@ const Card = ({ post }) => {
             <img src={post.attachment} alt="card-pic" className="card-pic" />
           )}
 
-          {(parseInt(userId) === post.UserId || admin === true) &&  (
+          {(parseInt(userId) === post.UserId || admin === "true") &&  (
             <div className="button-container">
               <div onClick={() => setIsUpdated(!isUpdated)}>
                 <img src="../../images/edit.svg" alt="edit" />

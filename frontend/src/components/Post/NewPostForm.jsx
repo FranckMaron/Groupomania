@@ -6,14 +6,15 @@ import { NavLink } from "react-router-dom";
 import { timestampParser } from "../Utils";
 
 const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId")
+
 
 const NewPostForm = () => {
   const [user, setUser] = useState([]);
-  const [message, setMessage] = useState("");
   const [postPicture, setPostPicture] = useState("");
   const [file, setFile] = useState("");
+  const [content, setContent] = useState("");
 
+  
   //Récupération de l'utilisateur
   const getUser = async () => {
     const userId = localStorage.getItem("userId");
@@ -38,16 +39,32 @@ const NewPostForm = () => {
 
   const handlePicture = (e) => {
     setPostPicture(URL.createObjectURL(e.target.files[0]));
-    setFile(e.target.files[0])
-    console.log(postPicture);
+    setFile(e.target.files[0]);
   };
 
   const handlePost = async () => {
-     
+      
+        const formData = new FormData()
+        formData.append("content", content)
+        if (file) formData.append("file", file)
+      
+      await axios({
+          method: "post",
+          url: `${process.env.REACT_APP_API_URL}api/message/new`,
+          headers: {
+              Authorization: "Bearer " + token,
+          },
+          data: formData
+      })
+      .then((result) => {
+          window.location.reload()
+      }).catch((err) => {
+          console.log(err)
+      });
   };
 
   const cancelPost = () => {
-    setMessage("");
+    setContent("");
     setPostPicture("");
     setFile("");
   };
@@ -68,13 +85,13 @@ const NewPostForm = () => {
         </NavLink>
         <div className="post-form">
           <textarea
-            name="message"
+            name="content"
             id="message"
             placeholder="Quoi de neuf?"
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
+            onChange={(e) => setContent(e.target.value)}
+            value={content}
           ></textarea>
-          {message || postPicture ? (
+          {content || postPicture ? (
             <li className="card-container">
               <div className="card-left">
                 <img src={user.picture} alt="user-pic" />
@@ -89,7 +106,7 @@ const NewPostForm = () => {
                   <span> {timestampParser(Date.now())} </span>
                 </div>
                 <div className="content">
-                  <p> {message} </p>
+                  <p> {content} </p>
                   {postPicture ? <img src={postPicture} alt="" /> : null}
                 </div>
               </div>
@@ -108,7 +125,7 @@ const NewPostForm = () => {
               />
             </div>
             <div className="btn-send">
-              {message || postPicture ? (
+              {content || postPicture ? (
                 <button className="cancel" onClick={cancelPost}>
                   Annuler message
                 </button>

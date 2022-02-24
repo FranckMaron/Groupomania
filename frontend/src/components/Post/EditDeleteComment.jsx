@@ -2,23 +2,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 const token = localStorage.getItem("token");
-const userId = localStorage.getItem("userId");
+let userId = localStorage.getItem("userId");
+
 const admin = localStorage.getItem("isAdmin");
 
-const EditDeleteComment = ({ comments }) => {
+const EditDeleteComment = ({ comment }) => {
   const [isAuthor, setIsAuthor] = useState(false);
   const [edit, setEdit] = useState(false);
   const [content, setContent] = useState("");
-  const [comment, setComment] = useState();
-
+  console.log(typeof userId);
+  console.log(typeof comment.id);
   const handleEdit = (e) => {
     e.preventDefault();
-
-    comments.map((comment1) => {
-      return setComment(comment1);
-    });
-    console.log(comment);
-    console.log(comments);
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}api/comment/${comment.id}`,
@@ -30,7 +25,8 @@ const EditDeleteComment = ({ comments }) => {
       },
     })
       .then((res) => {
-        console.log(comment.id);
+        setContent(content);
+        window.location.reload()
       })
       .catch((err) => {
         console.log(err);
@@ -39,22 +35,24 @@ const EditDeleteComment = ({ comments }) => {
 
   useEffect(() => {
     const checkAuthor = () => {
-      if (parseInt(userId) === comments.id || admin) {
+      if (Number(userId) === comment.UserId || admin === "true") {
         setIsAuthor(true);
       }
     };
     checkAuthor();
-  }, [comments.id]);
+  }, [comment.id]);
 
   const handleDelete = () => {
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_API_URL}api/comment/${comments.id}`,
+      url: `${process.env.REACT_APP_API_URL}api/comment/${comment.id}`,
       headers: {
         Authorization: "Bearer " + token,
       },
     })
       .then((res) => {
+        console.log(comment.id);
+        console.log(userId);
         console.log(res);
       })
       .catch((err) => {
@@ -77,7 +75,7 @@ const EditDeleteComment = ({ comments }) => {
             type="text"
             name="text"
             onChange={(e) => setContent(e.target.value)}
-            defaultValue={comments.content}
+            defaultValue={comment.content}
           />
           <br />
           <div className="btn">

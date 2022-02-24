@@ -83,6 +83,7 @@ exports.deleteUser = (req, res) => {
   })
     .then((user) => {
       const filename = user.picture.split("/images/")[1];
+      if(filename !== "profildefault.png")
       fs.unlink(`images/${filename}`, () => {
         user
           .destroy({

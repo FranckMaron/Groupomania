@@ -16,20 +16,12 @@ exports.createMessage = (req, res) => {
     res.status(400).json({ message: "Champs manquant(s) !" });
   }
 
-  if (req.body.title.length <= 1 || req.body.content.length <= 2) {
-    res.status(400).json({
-      error:
-        "Le titre doit comporter 2 caractère minimum, et le contenu 3 caractères minimum !",
-    });
-  }
-
   db.User.findOne({
     where: { id: userId }, //comme ca ou en decodant le token?
   })
     .then((user) => {
       if (user) {
         db.Message.create({
-          title: req.body.title,
           content: req.body.content,
           attachment: req.file
             ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
@@ -94,7 +86,6 @@ exports.updateMessage = (req, res) => {
       if (message) {
         message
           .update({
-            title: req.body.title ? req.body.title : message.title,
             content: req.body.content ? req.body.content : message.content,
             attachment: req.file
               ? `${req.protocol}://${req.get("host")}/images/${

@@ -6,17 +6,7 @@ const token = localStorage.getItem("token");
 
 const Thread = () => {
   const [messages, setMessages] = useState();
-  const [loadPost, setLoadPost] = useState(true);
-  const [count, setCount] = useState(2);
 
-  const loadMore = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop + 1 >
-      document.scrollingElement.scrollHeight
-    ) {
-      setLoadPost(true);
-    }
-  };
   useEffect(() => {
     const getPost = async (num) => {
       await axios({
@@ -27,21 +17,16 @@ const Thread = () => {
         },
       })
         .then((res) => {
-          if (loadPost) {
-            const array = res.data.messages.slice(0, num);
-            setMessages(array);
-            setLoadPost(false);
-            setCount(count + 1);
-          }
-          window.addEventListener("scroll", loadMore);
-          return () => window.removeEventListener("scroll");
+          const array = res.data.messages;
+          setMessages(array);
+         
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
         });
     };
-    getPost(count);
-  }, [count, loadPost]);
+    getPost();
+  }, []);
 
   return (
     <div className="thread-container">
@@ -49,7 +34,7 @@ const Thread = () => {
         {messages &&
           messages.map((message) => {
             return <Card post={message} key={message.id} />;
-          })}
+          }).sort((a, b) => b.createdAt - a.createdAt)}
       </ul>
     </div>
   );

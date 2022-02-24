@@ -9,10 +9,6 @@ import Error from "./pages/Error";
 
 //App
 const App = () => {
-
-  
-  
-
   return (
     <React.StrictMode>
       <BrowserRouter>

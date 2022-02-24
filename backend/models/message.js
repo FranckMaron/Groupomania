@@ -9,18 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.Message.belongsTo(models.User, {
+      models.Message.belongsTo(models.User)
+      models.Message.hasMany(models.Comment, {
         foreignKey: {
-          allowNull: false,
-          onDelete: "CASCADE"
-        },
-        
-      });
+        allowNull: false,
+        onDelete: "CASCADE"
+        }
+      })
     }
   }
   Message.init(
     {
-      title: DataTypes.STRING,
       content: DataTypes.STRING,
       attachment: DataTypes.STRING,
       likes: DataTypes.INTEGER,

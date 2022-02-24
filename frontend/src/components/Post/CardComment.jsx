@@ -20,6 +20,7 @@ const CardComment = ({ post, users }) => {
     })
       .then((res) => {
         setComments(res.data.comments);
+        console.log(comments);
       })
       .catch((err) => {
         console.log(err);
@@ -87,8 +88,11 @@ const CardComment = ({ post, users }) => {
                     </div>
                     <p> {comment.content} </p>
                     <EditDeleteComment
-                      comments={comments}
-                      postId={post}
+                      comment={comment}
+                      post={post}
+                      getcomments={getComments}
+                      
+                      key={Math.random()}
                     ></EditDeleteComment>
                   </div>
                 </>
