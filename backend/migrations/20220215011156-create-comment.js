@@ -11,6 +11,7 @@ module.exports = {
       messageId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         references: {
           model: "Messages",
           key: "id",
@@ -19,6 +20,7 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         references: {
           model: "Users",
           key: "id",
@@ -31,11 +33,6 @@ module.exports = {
       attachement: {
         allowNull: true,
         type: Sequelize.STRING,
-      },
-      likes: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,

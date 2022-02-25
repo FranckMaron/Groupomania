@@ -28,11 +28,9 @@ const Thread = () => {
     <div className="thread-container">
       <ul>
         {messages &&
-          messages
-            .map((message) => {
-              return <Card post={message} getpost={getPost} key={message.id} />;
-            })
-            .sort((a, b) => b.createdAt - a.createdAt)}
+          messages.map((message) => {
+            return <Card post={message} getpost={getPost} key={message.id} />;
+          })}
       </ul>
     </div>
   );

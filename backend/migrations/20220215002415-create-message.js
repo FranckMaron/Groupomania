@@ -11,6 +11,7 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
         references: {
           model: "Users",
           key: "id",
@@ -23,10 +24,6 @@ module.exports = {
       attachment: {
         allowNull: true,
         type: Sequelize.STRING,
-      },
-      likes: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
       },
       createdAt: {
         allowNull: false,

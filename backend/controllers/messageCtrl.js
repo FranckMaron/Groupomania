@@ -26,7 +26,7 @@ exports.createMessage = (req, res) => {
           attachment: req.file
             ? `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
             : null,
-          likes: 0,
+      
           UserId: user.id,
         })
           .then((message) => {
@@ -121,7 +121,7 @@ exports.deleteMessage = (req, res) => {
           res.status(200).json({ message: "Message supprimé !" });
         })
         .catch((err) => {
-          res.status(400).json({ err });
+          res.status(400).json({ err: err });
         });
     })
 

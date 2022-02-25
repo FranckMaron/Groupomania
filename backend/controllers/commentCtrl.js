@@ -25,7 +25,7 @@ exports.createComment = (req, res) => {
       if (message) {
         db.Comment.create({
           content: req.body.content,
-          likes: 0,
+        
           MessageId: message.id,
           UserId: userId, //demander à mon mentor comment faire autrement
         })

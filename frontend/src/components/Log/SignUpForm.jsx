@@ -22,8 +22,6 @@ const SignUpForm = () => {
     const nomError = document.querySelector(".nom.error");
     const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
-    const terms = document.getElementById("terms");
-    const termsError = document.querySelector(".terms.error");
     const passwordConfError = document.querySelector(".password-confirm.error");
 
     //Initialisation des champs erreur vide
@@ -31,16 +29,10 @@ const SignUpForm = () => {
     nomError.innerHTML = "";
     emailError.innerHTML = "";
     passwordError.innerHTML = "";
-    termsError.innerHTML = "";
     passwordConfError.innerHTML = "";
 
     //Gestion des erreur du aux conditions générale non coché || aux mots de passe différents
-    if (!terms.checked) {
-      termsError.innerHTML = "Veuillez accepter les conditions générales !";
-    }
-    if (password !== controlPassword) {
-      passwordConfError.innerHTML = "Les mot de passes ne correspondent pas !";
-    }
+ 
     //Appel a l'API
     axios({
       method: "post",
@@ -150,12 +142,7 @@ const SignUpForm = () => {
 
           <div className="password-confirm error"></div>
           <br />
-          <input type="checkbox" id="terms" />
-          <label htmlFor="terms">
-            J'accepte les <a href="/profil">conditions générales</a> !
-          </label>
-          <div className="terms error"></div>
-          <br />
+
           <input type="submit" value="Valider inscription" />
         </form>
       )}
