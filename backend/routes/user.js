@@ -10,8 +10,8 @@ router.post("/register", authCtrl.signUp);
 router.post("/login", authCtrl.signIn);
 
 //CRUD USER
-router.get("/all", auth, userCtrl.getAllUsers);
-router.get("/:id", auth, userCtrl.getUser);
+router.get("/all", userCtrl.getAllUsers);
+router.get("/:id", userCtrl.getUser);
 router.put("/:id", auth, multer, userCtrl.updateUser);
 router.delete("/:id", auth, userCtrl.deleteUser);
 

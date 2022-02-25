@@ -6,12 +6,10 @@ let userId = localStorage.getItem("userId");
 
 const admin = localStorage.getItem("isAdmin");
 
-const EditDeleteComment = ({ comment }) => {
+const EditDeleteComment = ({ comment, users, getcomments }) => {
   const [isAuthor, setIsAuthor] = useState(false);
   const [edit, setEdit] = useState(false);
   const [content, setContent] = useState("");
-  console.log(typeof userId);
-  console.log(typeof comment.id);
   const handleEdit = (e) => {
     e.preventDefault();
     axios({
@@ -25,8 +23,8 @@ const EditDeleteComment = ({ comment }) => {
       },
     })
       .then((res) => {
-        setContent(content);
-        window.location.reload()
+        setContent("")
+        getcomments();
       })
       .catch((err) => {
         console.log(err);
@@ -51,9 +49,7 @@ const EditDeleteComment = ({ comment }) => {
       },
     })
       .then((res) => {
-        console.log(comment.id);
-        console.log(userId);
-        console.log(res);
+        getcomments()
       })
       .catch((err) => {
         console.log(err);
@@ -69,6 +65,10 @@ const EditDeleteComment = ({ comment }) => {
       )}
       {isAuthor && edit && (
         <form action="" onSubmit={handleEdit} className="edit-comment-form  ">
+        <label htmlFor="text" onClick={() => setEdit(!edit)}>
+            Annuler
+          </label>
+          
           <br />
           <input
             className="comment-container"

@@ -8,7 +8,7 @@ const Profil = () => {
   return (
     <div className="profil-page">
       {token ? (
-        <UpdateProfil/>
+        <UpdateProfil />
       ) : (
         <div className="log-container">
           <Log signin={false} signup={true} />

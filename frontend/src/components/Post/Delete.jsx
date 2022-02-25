@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 const token = localStorage.getItem("token")
 
-const Delete = ({ post }) => {
+const Delete = ({ post, getpost }) => {
     const deleteQuote = () => {
         axios({
             method: "delete",

@@ -19,7 +19,7 @@ const CardComment = ({ post, users }) => {
       },
     })
       .then((res) => {
-        setComments(res.data.comments);
+        setComments(res.data.comments);        
         console.log(comments);
       })
       .catch((err) => {
@@ -60,13 +60,13 @@ const CardComment = ({ post, users }) => {
         comments.map((comment) => {
           if (comment.MessageId === post.id)
             return (
-              <div className="comment-container">
+              <div className="comment-container" key={comment.id}>
                 <>
-                  <div className="left-part" key={comment.id}>
+                  <div className="left-part" >
                     {users &&
                       users.map((user) => {
                         if (user.id === comment.UserId)
-                          return <img src={user.picture} alt="" key={user} />;
+                          return <img src={user.picture} alt="" key={user.picture} />;
                         else return null;
                       })}
                   </div>
@@ -77,7 +77,7 @@ const CardComment = ({ post, users }) => {
                           if (user.id === comment.UserId)
                             return (
                               <>
-                                <h3 key={user.id}>
+                                <h3 key={user.nom}>
                                   {user.prenom} {user.nom}
                                 </h3>
                                 <span>{dateParser(comment.createdAt)}</span>
@@ -90,7 +90,10 @@ const CardComment = ({ post, users }) => {
                     <EditDeleteComment
                       comment={comment}
                       post={post}
-                      key={Math.random()}
+                      users={users}
+                      getcomments={getComments}
+                      key={`${comment.id}-${comment.UserId}`}
+
                     ></EditDeleteComment>
                   </div>
                 </>

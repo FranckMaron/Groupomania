@@ -6,8 +6,8 @@ const multer = require("../middleware/multer-config");
 
 //CRUD Commentaires
 router.post("/new", auth, multer, commentCtrl.createComment);
-router.get("/all", auth, commentCtrl.getAllComments);
-router.get("/:id", auth, commentCtrl.getOneComment);
+router.get("/all", commentCtrl.getAllComments);
+router.get("/:id", commentCtrl.getOneComment);
 router.put("/:id", auth, multer, commentCtrl.updateComment);
 router.delete("/:id", auth, commentCtrl.deleteComment);
 

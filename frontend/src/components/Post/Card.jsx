@@ -11,7 +11,7 @@ const token = localStorage.getItem("token");
 const userId = localStorage.getItem("userId");
 const admin = localStorage.getItem("isAdmin")
 
-const Card = ({ post }) => {
+const Card = ({ post, getpost }) => {
   const [users, setUsers] = useState();
   const [isUpdated, setIsUpdated] = useState(false);
   const [content, setContent] = useState(null);
@@ -30,9 +30,8 @@ const Card = ({ post }) => {
       },
     })
       .then((res) => {
-        setContent(content);
-        setIsUpdated(false);
-        window.location.reload();
+       getpost()
+       setIsUpdated(false)
       })
       .catch((err) => {
         console.log(err);
@@ -133,7 +132,7 @@ const Card = ({ post }) => {
             <img src="../../images/share.svg" alt="" />
           </div>
           {showComment && (
-            <CardComment post={post} users={users} />
+            <CardComment post={post} getpost={getpost} users={users} />
           )}
         </div>
       </>
