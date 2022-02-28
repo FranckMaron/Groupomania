@@ -15,24 +15,24 @@ exports.createComment = (req, res) => {
   }
 
   if (req.body.content <= 2) {
-    return res.status(401).json({ message: "Veuillez écrire au moins 3 caractères !" });
-      
+    return res
+      .status(401)
+      .json({ message: "Veuillez écrire au moins 3 caractères !" });
   }
-
 
   db.Message.findOne({ where: { id: req.body.messageId } })
     .then((message) => {
       if (message) {
         db.Comment.create({
           content: req.body.content,
-        
+
           MessageId: message.id,
           UserId: userId, //demander à mon mentor comment faire autrement
         })
           .then((comment) => {
             if (comment) {
               res.status(201).json({
-                comment
+                comment,
               });
             } else {
               res
@@ -41,7 +41,7 @@ exports.createComment = (req, res) => {
             }
           })
           .catch((err) => {
-            res.status(500).json({err: "test"});
+            res.status(500).json({ err: "test" });
           });
       } else {
         res.status(404).json({ message: "Message introuvable !" });

@@ -22,7 +22,7 @@ const Delete = ({ post, getpost }) => {
   return (
     <div
       onClick={() => {
-        if (window.confirm("Veuillez vous supprimer ce message?")) {
+        if (window.confirm("Voulez vous supprimer ce message?")) {
           deleteQuote();
         }
       }}
