@@ -12,7 +12,6 @@ const SignUpForm = () => {
   const [nom, setNom] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [controlPassword, setControlPassword] = useState("");
 
   //Envoi du formulaire
   const handleRegister = (e) => {
@@ -125,19 +124,6 @@ const SignUpForm = () => {
           />
 
           <div className="password error"></div>
-          <br />
-          <label htmlFor="password-conf">Confirmer mot de passe</label>
-          <br />
-          <input
-            type="password"
-            name="password"
-            id="password-conf"
-            required
-            onChange={(e) => setControlPassword(e.target.value)}
-            value={controlPassword}
-          />
-
-          <div className="password-confirm error"></div>
           <br />
 
           <input type="submit" value="Valider inscription" />
