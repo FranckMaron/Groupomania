@@ -22,16 +22,13 @@ const SignUpForm = () => {
     const nomError = document.querySelector(".nom.error");
     const emailError = document.querySelector(".email.error");
     const passwordError = document.querySelector(".password.error");
-    const passwordConfError = document.querySelector(".password-confirm.error");
+  
 
     //Initialisation des champs erreur vide
     prenomError.innerHTML = "";
     nomError.innerHTML = "";
     emailError.innerHTML = "";
     passwordError.innerHTML = "";
-    passwordConfError.innerHTML = "";
-
-    //Gestion des erreur du aux conditions générale non coché || aux mots de passe différents
  
     //Appel a l'API
     axios({
