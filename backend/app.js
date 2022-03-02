@@ -2,7 +2,6 @@
 const express = require("express");
 const path = require("path");
 const app = express();
-const helmet = require("helmet")
 
 const userRoutes = require("./routes/user");
 const messageRoutes = require("./routes/message");
@@ -10,7 +9,6 @@ const commentRoutes = require("./routes/comment");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(helmet())
 
 //CORS
 app.use((req, res, next) => {
