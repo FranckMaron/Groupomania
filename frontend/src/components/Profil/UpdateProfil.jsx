@@ -53,7 +53,6 @@ const UpdateProfil = () => {
         setUpdateForm(false);
         setBio(bio);
         getUser()
-        console.log(bio);
       })
       .catch((err) => {
         console.log(err.response);
